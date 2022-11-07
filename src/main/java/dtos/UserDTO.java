@@ -1,23 +1,19 @@
 package dtos;
 
+import entities.User;
+
 import java.util.List;
 
 public class UserDTO {
     private long id;
     private String userName;
-    //    private String userPass;
-    //    private List<String> roles;
-    private List<RoleInnerDto> roles;
+    private String userPass;
+    private List<String> roles;
 
-    class RoleInnerDto {
-        private String roleName;
-
-        public String getRoleName() {
-            return roleName;
-        }
-
-        public void setRoleName(String roleName) {
-            this.roleName = roleName;
-        }
+    public UserDTO(User u){
+        this.id = u.getId();
+        this.userName = u.getUserName();
+        this.userPass = u.getUserPass();
+        this.roles = u.getRolesAsStrings();
     }
 }
