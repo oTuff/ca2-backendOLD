@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import dtos.UserDTO;
 import org.mindrot.jbcrypt.BCrypt;
 
 @Entity
@@ -35,6 +36,23 @@ public class User implements Serializable {
     @ManyToMany
     private List<Role> roleList = new ArrayList<>();
 
+    public User() {
+    }
+
+    public User(UserDTO userDTO) {
+        this.id = userDTO.getId();
+        this.userName = userDTO.getUserName();
+        this.userPass = userDTO.getUserPass();
+
+        List<Role> roleList = new ArrayList<>();
+
+        for (String role : userDTO.getRoles()) {
+            roleList.add(new Role(role));
+        }
+        this.roleList = roleList;
+
+    }
+
     public Long getId() {
         return id;
     }
@@ -48,9 +66,6 @@ public class User implements Serializable {
             rolesAsStrings.add(role.getRoleName());
         });
         return rolesAsStrings;
-    }
-
-    public User() {
     }
 
     public boolean verifyPassword(String pw) {
