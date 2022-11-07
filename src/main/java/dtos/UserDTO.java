@@ -3,6 +3,7 @@ package dtos;
 import entities.User;
 
 import java.util.List;
+import java.util.Objects;
 
 public class UserDTO {
     private long id;
@@ -47,5 +48,28 @@ public class UserDTO {
 
     public void setRoles(List<String> roles) {
         this.roles = roles;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof UserDTO)) return false;
+        UserDTO userDTO = (UserDTO) o;
+        return getId() == userDTO.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
+
+    @Override
+    public String toString() {
+        return "UserDTO{" +
+                "id=" + id +
+                ", userName='" + userName + '\'' +
+                ", userPass='" + userPass + '\'' +
+                ", roles=" + roles +
+                '}';
     }
 }

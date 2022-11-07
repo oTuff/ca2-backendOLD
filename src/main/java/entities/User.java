@@ -3,6 +3,7 @@ package entities;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -11,6 +12,7 @@ import dtos.UserDTO;
 import org.mindrot.jbcrypt.BCrypt;
 
 @Entity
+@NamedQuery(name = "User.deleteAllRows", query = "DELETE from User")
 @Table(name = "users")
 public class User implements Serializable {
 
@@ -106,4 +108,16 @@ public class User implements Serializable {
         roleList.add(userRole);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return getId().equals(user.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
 }

@@ -1,9 +1,16 @@
 package facades;
 
+import dtos.UserDTO;
 import entities.User;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
+
 import security.errorhandling.AuthenticationException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author lam@cphbusiness.dk
@@ -17,7 +24,6 @@ public class UserFacade {
     }
 
     /**
-     *
      * @param _emf
      * @return the instance of this facade.
      */
@@ -29,11 +35,19 @@ public class UserFacade {
         return instance;
     }
 
+    private EntityManager getEntityManager() {
+        return emf.createEntityManager();
+    }
+
     public User getVerifiedUser(String username, String password) throws AuthenticationException {
         EntityManager em = emf.createEntityManager();
         User user;
         try {
-            user = em.find(User.class, username);
+            TypedQuery<User> query = em.createQuery("select u from User u where u.userName= :username", User.class);
+            query.setParameter("username", username);
+            user = query.getSingleResult();
+            //old method when userName was id:
+//            user = em.find(User.class, username);
             if (user == null || !user.verifyPassword(password)) {
                 throw new AuthenticationException("Invalid user name or password");
             }
@@ -42,5 +56,39 @@ public class UserFacade {
         }
         return user;
     }
+
+    public List<UserDTO> getAllUsers() {
+        EntityManager em = getEntityManager();
+        try {
+            TypedQuery<User> query = em.createQuery("SELECT u FROM User u", User.class);
+            List<User> userList = query.getResultList();
+
+            List<UserDTO> userDTOList = new ArrayList<>();
+            for (User user : userList) {
+                userDTOList.add(new UserDTO(user));
+            }
+            return userDTOList;
+        } finally {
+            em.close();
+        }
+    }
+
+
+    public UserDTO getUserById(Long id) {
+        EntityManager em = getEntityManager();
+        User user = em.find(User.class, id);
+        return new UserDTO(user);
+    }
+
+    public UserDTO updateUser(Long id) {
+
+        return null;
+    }
+
+    public UserDTO deleteUser(Long id) {
+
+        return null;
+    }
+
 
 }
