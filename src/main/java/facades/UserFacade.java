@@ -5,6 +5,7 @@ import entities.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import security.errorhandling.AuthenticationException;
@@ -48,9 +49,12 @@ public class UserFacade {
             user = query.getSingleResult();
             //old method when userName was id:
 //            user = em.find(User.class, username);
-            if (user == null || !user.verifyPassword(password)) {
+            //todo: maybe throw different error messages depending on if password or username is wrong
+            if (/*user == null ||*/ !user.verifyPassword(password)) {
                 throw new AuthenticationException("Invalid user name or password");
             }
+        }catch (NoResultException e) {
+            throw new AuthenticationException("Invalid user name or password");
         } finally {
             em.close();
         }

@@ -66,6 +66,7 @@ public class UserFacadeTest {
     }
     @Test
     void wrongUserName() throws AuthenticationException {
+        assertThrows(AuthenticationException.class, ()-> facade.getVerifiedUser("Oscar1","test"));
     }
 
     @Test
