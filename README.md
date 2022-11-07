@@ -1,6 +1,5 @@
 In order for the startcode to work you have to do the following steps:
 
-:)
 1. Head to your pom.xml file and change the name of the project and its artifact id.
 2. While you're in the pom.xml file you should also change the name of the database to the one you will be using.
 3. Make sure to add your remote secrets to your GitHub project: REMOTE_PW and REMOTE_USER, otherwise you can't deploy the project.
