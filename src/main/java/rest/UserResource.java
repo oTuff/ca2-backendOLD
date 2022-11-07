@@ -8,13 +8,10 @@ import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.*;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.SecurityContext;
 
 import facades.UserFacade;
 import utils.EMF_Creator;
@@ -46,15 +43,17 @@ public class UserResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("all")
     public String allUsers() {
+        return null;
 
-        EntityManager em = EMF.createEntityManager();
-        try {
-            TypedQuery<User> query = em.createQuery ("select u from User u",entities.User.class);
-            List<User> users = query.getResultList();
-            return "[" + users.size() + "]";
-        } finally {
-            em.close();
-        }
+      //  return Response.ok().entity(GSON.toJson(facade.getAllUsers())).build();
+//        EntityManager em = EMF.createEntityManager();
+//        try {
+//            TypedQuery<User> query = em.createQuery ("select u from User u",entities.User.class);
+//            List<User> users = query.getResultList();
+//            return "[" + users.size() + "]";
+//        } finally {
+//            em.close();
+//        }
     }
 
     @GET
@@ -74,4 +73,13 @@ public class UserResource {
         String thisuser = securityContext.getUserPrincipal().getName();
         return "{\"msg\": \"Hello to (admin) User: " + thisuser + "\"}";
     }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("user/@id")
+    public String getUserById(Long id){
+        return null;
+    }
+
+
 }

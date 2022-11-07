@@ -9,6 +9,7 @@ import utils.EMF_Creator;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -85,15 +86,34 @@ public class UserFacadeTest {
     }
 
     @Test
-    void updateUser() {
-        UserDTO actual = facade.updateUser(user1.getId());
-        UserDTO expected = new UserDTO(user1);
-        assertEquals(expected,actual);
-
+    void createUser(){
+        List<String> roles = new ArrayList<>();
+        roles.add("admin");
+        UserDTO userDTO = new UserDTO("Christoffer","test",roles);
+        UserDTO actual = facade.createUser(userDTO);
+        assertEquals(3, facade.getAllUsers().size());
 
     }
 
     @Test
-    void deleteUser() {
+    void updateUser() {
+        List<String> roles = new ArrayList<>();
+        UserDTO expected = new UserDTO(user1.getId(),"nyOscar","test",roles);
+        UserDTO actual = facade.updateUser(expected);
+        assertEquals(expected ,actual);
     }
-}
+
+    @Test
+    void deleteUser() {
+//        UserDTO actual = facade.deleteUser(user1.getId());
+//        UserDTO expected = new UserDTO(user1);
+//
+//        assertEquals(expected, actual);
+            UserDTO userDTO = facade.deleteUser(user2.getId());
+            int expected = 1;
+            int actual = facade.getAllUsers().size();
+            assertEquals(expected, actual);
+            assertEquals(userDTO, new UserDTO(user2));
+        }
+
+    }

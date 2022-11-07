@@ -84,14 +84,40 @@ public class UserFacade {
         return new UserDTO(user);
     }
 
-    public UserDTO updateUser(Long id) {
+    public UserDTO createUser(UserDTO userDTO){
+        EntityManager em = getEntityManager();
+        User user = new User(userDTO);
+        em.getTransaction().begin();
+        em.persist(user);
+        em.getTransaction().commit();
+        System.out.println(user);
+        return new UserDTO(user);
+    }
 
-        return null;
+    public UserDTO updateUser(UserDTO userDTO) {
+        User user = new User(userDTO);
+        EntityManager em = getEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.merge(user);
+            em.getTransaction().commit();
+            return new UserDTO(user);
+        } finally {
+            em.close();
+        }
     }
 
     public UserDTO deleteUser(Long id) {
-
-        return null;
+        EntityManager em = emf.createEntityManager();
+       User user = em.find(User.class, id);
+        try {
+            em.getTransaction().begin();
+            em.remove(user);
+            em.getTransaction().commit();
+            return new UserDTO(user);
+        } finally {
+            em.close();
+        }
     }
 
 

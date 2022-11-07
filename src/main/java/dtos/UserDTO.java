@@ -18,6 +18,19 @@ public class UserDTO {
         this.roles = u.getRolesAsStrings();
     }
 
+    public UserDTO(String userName, String userPass, List<String> roles) {
+        this.userName = userName;
+        this.userPass = userPass;
+        this.roles = roles;
+    }
+
+    public UserDTO(long id, String userName, String userPass, List<String> roles) {
+        this.id = id;
+        this.userName = userName;
+        this.userPass = userPass;
+        this.roles = roles;
+    }
+
     public long getId() {
         return id;
     }

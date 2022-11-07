@@ -35,7 +35,7 @@ public class User implements Serializable {
     @JoinTable(name = "user_roles", joinColumns = {
             @JoinColumn(name = "user_name", referencedColumnName = "user_name")}, inverseJoinColumns = {
             @JoinColumn(name = "role_name", referencedColumnName = "role_name")})
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     private List<Role> roleList = new ArrayList<>();
 
     public User() {
@@ -44,7 +44,7 @@ public class User implements Serializable {
     public User(UserDTO userDTO) {
         this.id = userDTO.getId();
         this.userName = userDTO.getUserName();
-        this.userPass = userDTO.getUserPass();
+        this.userPass = BCrypt.hashpw(userDTO.getUserPass(), BCrypt.gensalt());
 
         List<Role> roleList = new ArrayList<>();
 
@@ -53,6 +53,11 @@ public class User implements Serializable {
         }
         this.roleList = roleList;
 
+    }
+
+    public User(String userName, String userPass) {
+        this.userName = userName;
+        this.userPass = BCrypt.hashpw(userPass, BCrypt.gensalt());
     }
 
     public Long getId() {
@@ -72,11 +77,6 @@ public class User implements Serializable {
 
     public boolean verifyPassword(String pw) {
         return (BCrypt.checkpw(pw, userPass));
-    }
-
-    public User(String userName, String userPass) {
-        this.userName = userName;
-        this.userPass = BCrypt.hashpw(userPass, BCrypt.gensalt());
     }
 
 
@@ -119,5 +119,15 @@ public class User implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(getId());
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", userName='" + userName + '\'' +
+                ", userPass='" + userPass + '\'' +
+                ", roleList=" + roleList +
+                '}';
     }
 }
