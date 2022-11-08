@@ -3,11 +3,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dtos.UserDTO;
 import io.restassured.http.ContentType;
-import io.restassured.path.json.JsonPath;
-import io.restassured.response.Response;
-import io.restassured.response.ResponseBody;
-import io.restassured.response.ResponseOptions;
-import io.restassured.response.ValidatableResponse;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.junit.jupiter.api.*;
@@ -17,26 +12,13 @@ import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.core.UriBuilder;
 import java.net.URI;
 import entities.*;
-import utils.EMF_Creator;
 import io.restassured.RestAssured;
 import static io.restassured.RestAssured.given;
 import io.restassured.parsing.Parser;
-import java.net.URI;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.ws.rs.core.UriBuilder;
 import org.glassfish.grizzly.http.server.HttpServer;
-import org.glassfish.grizzly.http.util.HttpStatus;
-import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
-import org.glassfish.jersey.server.ResourceConfig;
-
-import static io.restassured.RestAssured.oauth;
-import static junit.framework.Assert.assertEquals;
-import static org.hamcrest.CoreMatchers.hasItems;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -166,5 +148,12 @@ class UserResourceTest {
 
     @Test
     void deleteUser() {
+            given()
+                    .contentType("application/json")
+                    .pathParam("id", u2.getId())
+                    .delete("/info/user/{id}")
+                    .then()
+                    .statusCode(200)
+                    .body("id", equalTo(u2.getId().intValue()));
+        }
     }
-}
