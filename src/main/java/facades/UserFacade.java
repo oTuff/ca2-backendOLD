@@ -1,12 +1,10 @@
 package facades;
 
 import dtos.UserDTO;
+import entities.Role;
 import entities.User;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.NoResultException;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 
 import security.errorhandling.AuthenticationException;
 
@@ -90,15 +88,22 @@ public class UserFacade {
         em.getTransaction().begin();
         em.persist(user);
         em.getTransaction().commit();
-        System.out.println(user);
         return new UserDTO(user);
     }
 
     public UserDTO updateUser(UserDTO userDTO) {
+        //todo: fix bugs:
+        // adds new role instead of updating exsisting
+        // can edit name to be dublicate
+        // something with password???
         User user = new User(userDTO);
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
+//            for(Role r : user.getRoleList()) {
+//                em.remove(r);
+//            }
+            //em.createQuery()
             em.merge(user);
             em.getTransaction().commit();
             return new UserDTO(user);
