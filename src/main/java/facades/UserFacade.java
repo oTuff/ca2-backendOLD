@@ -83,6 +83,7 @@ public class UserFacade {
     }
 
     public UserDTO createUser(UserDTO userDTO){
+        //todo: can create user with existing name when cascadeType=PERSIST
         EntityManager em = getEntityManager();
         User user = new User(userDTO);
         em.getTransaction().begin();
