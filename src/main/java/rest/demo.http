@@ -16,7 +16,7 @@ Content-Type: application/json
 PUT http://localhost:8080/api/info/user/update
 Content-Type: application/json
 
-{"id":19,"userName": "test5", "userPass": "chrisTest", "roles": ["admin"]}
+{"id":21,"userName": "test7", "userPass": "chrisTest", "roles": ["user"]}
 
 ### Deletes a user by id
 DELETE http://localhost:8080/api/info/user/18
