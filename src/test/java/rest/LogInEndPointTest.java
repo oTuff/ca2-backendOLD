@@ -95,6 +95,7 @@ public class LogInEndPointTest {
     //Utility method to login and set the returned securityToken
     private static void login(String role, String password) {
         String json = String.format("{username: \"%s\", password: \"%s\"}", role, password);
+        System.out.println(json);
         securityToken = given()
                 .contentType("application/json")
                 .body(json)
