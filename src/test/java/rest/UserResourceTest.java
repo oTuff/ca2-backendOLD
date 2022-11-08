@@ -33,6 +33,7 @@ import org.glassfish.grizzly.http.util.HttpStatus;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
+import static io.restassured.RestAssured.oauth;
 import static junit.framework.Assert.assertEquals;
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -129,11 +130,38 @@ class UserResourceTest {
 
     @Test
     void createUser() {
+        List<String> roles = new ArrayList<>();
+        String requestBody = GSON.toJson(new UserDTO("Oscar","test",roles));
 
+        given()
+                .header("Content-type", ContentType.JSON)
+                .and()
+                .body(requestBody)
+                .when()
+                .post("/info")
+                .then()
+                .assertThat()
+                .statusCode(200)
+                .body("id", notNullValue())
+                .body("userName", equalTo("Oscar"));
     }
 
     @Test
     void updateUser() {
+        //todo: finish
+        UserDTO userDTO = new UserDTO(u1);
+        userDTO.setUserName("nytnavn");
+        userDTO.setRoles(new ArrayList<>());
+        given()
+                .header("Content-type", ContentType.JSON)
+                .body(GSON.toJson(userDTO))
+                .when()
+                .put("/info/user/update")
+                .then()
+                .assertThat()
+                .statusCode(200)
+                .body("id", equalTo(u1.getId().intValue()))
+                .body("userName", equalTo("nytnavn"));
     }
 
     @Test

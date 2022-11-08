@@ -78,18 +78,27 @@ public class UserFacade {
 
     public UserDTO getUserById(Long id) {
         EntityManager em = getEntityManager();
-        User user = em.find(User.class, id);
-        return new UserDTO(user);
+        try {
+            em = getEntityManager();
+            User user = em.find(User.class, id);
+            return new UserDTO(user);
+        } finally {
+            em.close();
+        }
     }
 
     public UserDTO createUser(UserDTO userDTO){
         //todo: can create user with existing name when cascadeType=PERSIST
         EntityManager em = getEntityManager();
-        User user = new User(userDTO);
-        em.getTransaction().begin();
-        em.persist(user);
-        em.getTransaction().commit();
-        return new UserDTO(user);
+        try {
+            User user = new User(userDTO);
+            em.getTransaction().begin();
+            em.persist(user);
+            em.getTransaction().commit();
+            return new UserDTO(user);
+        }finally {
+            em.close();
+        }
     }
 
     public UserDTO updateUser(UserDTO userDTO) {
@@ -97,9 +106,9 @@ public class UserFacade {
         // adds new role instead of updating exsisting
         // can edit name to be dublicate
         // something with password???
-        User user = new User(userDTO);
         EntityManager em = getEntityManager();
         try {
+            User user = new User(userDTO);
             em.getTransaction().begin();
 //            for(Role r : user.getRoleList()) {
 //                em.remove(r);
@@ -114,7 +123,7 @@ public class UserFacade {
     }
 
     public UserDTO deleteUser(Long id) {
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = getEntityManager();
        User user = em.find(User.class, id);
         try {
             em.getTransaction().begin();
