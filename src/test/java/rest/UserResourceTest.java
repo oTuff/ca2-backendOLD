@@ -124,20 +124,10 @@ class UserResourceTest {
 
         assertThat(userDTO, equalTo(new UserDTO(u1)));
     }
-//        given()
-//                .contentType(ContentType.JSON)
-////                .pathParam("id", p1.getId()).when()
-//                .get("/info/user/{id}",u1.getId())
-//                .then()
-//                .assertThat()
-//                .statusCode(HttpStatus.OK_200.getStatusCode())
-//                .body("id", equalTo(u1.getId()));
-////                .body("name", equalTo(p1.getName()))
-////                .body("children", hasItems(hasEntry("name","Joseph"),hasEntry("name","Alberta")));
-//    }
 
     @Test
     void createUser() {
+
     }
 
     @Test
