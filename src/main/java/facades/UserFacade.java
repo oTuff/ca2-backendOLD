@@ -1,6 +1,7 @@
 package facades;
 
 import dtos.UserDTO;
+import entities.Role;
 import entities.User;
 
 import javax.persistence.*;
@@ -110,7 +111,8 @@ public class UserFacade {
             User user = new User(userDTO);
             em.getTransaction().begin();
 //            for(Role r : user.getRoleList()) {
-//                em.remove(r);
+//                r.getUserList().remove(user);
+//                em.merge(r);
 //            }
             //em.createQuery()
             em.merge(user);
