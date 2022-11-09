@@ -10,7 +10,7 @@ Accept: application/json
 POST http://localhost:8080/api/info/
 Content-Type: application/json
 
-{"userName": "test6", "userPass": "chris1234", "roles": []}
+{"userName": "oscar", "userPass": "test", "roles": ["user","admin"]}
 
 ###
 PUT http://localhost:8080/api/info/user/update
@@ -22,3 +22,20 @@ Content-Type: application/json
 DELETE http://localhost:8080/api/info/user/18
 Accept: application/json
 
+###
+POST https://tuff.systems/BackEnd_CA2/api/info
+Content-Type: application/json
+
+{"userName": "oscar", "userPass": "test", "roles": ["user", "admin"]}
+
+###
+POST https://tuff.systems/BackEnd_CA2/api/login
+Content-Type: application/json
+
+{"username": "oscar", "password": "test"}
+
+###
+POST http://localhost:8080/api/login
+Content-Type: application/json
+
+{"username": "oscar", "password": "test"}
