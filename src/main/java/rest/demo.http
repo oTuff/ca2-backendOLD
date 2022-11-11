@@ -10,7 +10,7 @@ Accept: application/json
 POST http://localhost:8080/api/info/
 Content-Type: application/json
 
-{"userName": "oscar6", "userPass": "", "roles": []}
+{"userName": "oscar3", "userPass": "test", "roles": ["admin"]}
 
 ###
 PUT http://localhost:8080/api/info/user/update

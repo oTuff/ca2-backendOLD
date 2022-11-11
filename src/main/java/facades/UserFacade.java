@@ -93,6 +93,9 @@ public class UserFacade {
         EntityManager em = getEntityManager();
         try {
             User user = new User(userDTO);
+            user.getRoleList().forEach(role -> {
+                role.getUserList().add(user);
+            });
             em.getTransaction().begin();
             em.persist(user);
             em.getTransaction().commit();
