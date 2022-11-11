@@ -33,9 +33,9 @@ public class User implements Serializable {
     @Column(name = "user_pass")
     private String userPass;
     @JoinTable(name = "user_roles", joinColumns = {
-            @JoinColumn(name = "user_name", referencedColumnName = "user_name")}, inverseJoinColumns = {
+            @JoinColumn(name = "user_id", referencedColumnName = "user_id")}, inverseJoinColumns = {
             @JoinColumn(name = "role_name", referencedColumnName = "role_name")})
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.MERGE)
     private List<Role> roleList = new ArrayList<>();
 
     public User() {
@@ -48,11 +48,12 @@ public class User implements Serializable {
 
         List<Role> roleList = new ArrayList<>();
 
-        for (String role : userDTO.getRoles()) {
-            roleList.add(new Role(role));
+        for (String roleString : userDTO.getRoles()) {
+            Role role = new Role(roleString);
+
+            roleList.add(role);
         }
         this.roleList = roleList;
-
     }
 
     public User(String userName, String userPass) {
@@ -121,13 +122,4 @@ public class User implements Serializable {
         return Objects.hash(getId());
     }
 
-//    @Override
-//    public String toString() {
-//        return "User{" +
-//                "id=" + id +
-//                ", userName='" + userName + '\'' +
-//                ", userPass='" + userPass + '\'' +
-//                ", roleList=" + roleList +
-//                '}';
-//    }
 }

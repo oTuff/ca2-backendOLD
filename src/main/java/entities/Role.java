@@ -1,7 +1,9 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -21,8 +23,8 @@ public class Role implements Serializable {
     @Column(name = "role_name", length = 20)
     private String roleName;
     
-    @ManyToMany(mappedBy = "roleList")//, cascade = CascadeType.REMOVE)
-    private List<User> userList;
+    @ManyToMany(mappedBy = "roleList")
+    private List<User> userList = new ArrayList<>();
 
     public Role() {
     }
@@ -45,5 +47,18 @@ public class Role implements Serializable {
 
     public void setUserList(List<User> userList) {
         this.userList = userList;
-    }   
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Role)) return false;
+        Role role = (Role) o;
+        return getRoleName().equals(role.getRoleName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getRoleName());
+    }
 }

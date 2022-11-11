@@ -89,6 +89,7 @@ public class UserFacade {
 
     public UserDTO createUser(UserDTO userDTO){
         //todo: can create user with existing name when cascadeType=PERSIST
+        // cannot add user with role
         EntityManager em = getEntityManager();
         try {
             User user = new User(userDTO);
@@ -103,25 +104,22 @@ public class UserFacade {
 
     public UserDTO updateUser(UserDTO userDTO) {
         //todo: fix bugs:
-        // adds new role instead of updating exsisting
         // can edit name to be dublicate
-        // something with password???
-        EntityManager em = getEntityManager();
-        try {
+        // needs to handle not updating password
             User user = new User(userDTO);
-            em.getTransaction().begin();
-//            for(Role r : user.getRoleList()) {
-//                r.getUserList().remove(user);
-//                em.merge(r);
-//            }
-            //em.createQuery()
-            em.merge(user);
-            em.getTransaction().commit();
-            return new UserDTO(user);
-        } finally {
-            em.close();
+            user.getRoleList().forEach(role -> {
+                role.getUserList().add(user);
+            });
+            EntityManager em = getEntityManager();
+            try {
+                em.getTransaction().begin();
+                em.merge(user);
+                em.getTransaction().commit();
+                return new UserDTO(user);
+            } finally {
+                em.close();
+            }
         }
-    }
 
     public UserDTO deleteUser(Long id) {
         EntityManager em = getEntityManager();
