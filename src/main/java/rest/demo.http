@@ -26,7 +26,7 @@ Accept: application/json
 POST https://tuff.systems/BackEnd_CA2/api/info
 Content-Type: application/json
 
-{"userName": "testadmin", "userPass": "test", "roles": ["user","admin"]}
+{"userName": "testuser", "userPass": "test", "roles": ["user"]}
 
 ###
 POST https://tuff.systems/BackEnd_CA2/api/login
@@ -39,3 +39,7 @@ POST http://localhost:8080/api/login
 Content-Type: application/json
 
 {"username": "oscar", "password": "test"}
+
+###
+DELETE https://tuff.systems/BackEnd_CA2/api/info/user/4
+Accept: application/json

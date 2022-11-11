@@ -88,8 +88,8 @@ public class UserFacade {
     }
 
     public UserDTO createUser(UserDTO userDTO){
-        //todo: can create user with existing name when cascadeType=PERSIST
-        // cannot add user with role
+        //todo: default add user role
+        // *can add existing user!!
         EntityManager em = getEntityManager();
         try {
             User user = new User(userDTO);
