@@ -15,6 +15,7 @@ import java.io.UnsupportedEncodingException;
  * @author tha
  */
 public class Utility {
+
     private static Gson gson = new GsonBuilder().create();
     
     public static void printAllProperties() {
