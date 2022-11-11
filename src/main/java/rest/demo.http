@@ -26,7 +26,7 @@ Accept: application/json
 POST https://tuff.systems/BackEnd_CA2/api/info
 Content-Type: application/json
 
-{"userName": "oscar2", "userPass": "test", "roles": ["user","admin"]}
+{"userName": "oscar", "userPass": "test", "roles": ["user"]}
 
 ###
 POST https://tuff.systems/BackEnd_CA2/api/login
